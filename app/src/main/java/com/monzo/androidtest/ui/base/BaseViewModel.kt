@@ -1,13 +1,11 @@
-package com.monzo.androidtest.common
+package com.monzo.androidtest.ui.base
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 abstract class BaseViewModel<S : Any>(initialState: S) : ViewModel() {
-    protected val disposables: CompositeDisposable = CompositeDisposable()
 
     private val _state: MutableStateFlow<S> = MutableStateFlow(initialState)
 
@@ -20,10 +18,5 @@ abstract class BaseViewModel<S : Any>(initialState: S) : ViewModel() {
         if (newState != currentState) {
             _state.value = newState
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disposables.dispose()
     }
 }

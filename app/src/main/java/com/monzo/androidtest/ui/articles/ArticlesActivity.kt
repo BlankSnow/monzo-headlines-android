@@ -1,4 +1,4 @@
-package com.monzo.androidtest.articles
+package com.monzo.androidtest.ui.articles
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -25,7 +25,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.monzo.androidtest.HeadlinesApp
@@ -117,16 +116,5 @@ private fun ArticleItem(
         Spacer(modifier = Modifier.size(16.dp))
 
         Text(text = title)
-    }
-}
-
-@Preview
-@Composable
-private fun Preview_ArticleItem() {
-    GuardianTheme {
-        ArticleItem(
-            imageUrl = "https://example.com/image.jpg",
-            title = "Article Title",
-        )
     }
 }
