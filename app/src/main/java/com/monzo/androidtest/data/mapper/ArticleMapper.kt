@@ -1,5 +1,6 @@
 package com.monzo.androidtest.data.mapper
 
+import androidx.core.text.HtmlCompat
 import com.monzo.androidtest.data.api.model.ApiArticle
 import com.monzo.androidtest.data.api.model.ApiArticleListResponse
 import com.monzo.androidtest.domain.model.Article
@@ -17,6 +18,7 @@ class ArticleMapper {
     fun mapSingle(apiArticle: ApiArticle): Article {
         val thumbnail = apiArticle.fields?.thumbnail ?: ""
         val headline = apiArticle.fields?.headline ?: apiArticle.webTitle
+        val cleanBody = apiArticle.fields?.body?.let { stripHtml(it) }
 
         return Article(
             id = apiArticle.id,
@@ -26,8 +28,15 @@ class ArticleMapper {
             published = apiArticle.webPublicationDate,
             publishedDateFormatted = formatDate(apiArticle.webPublicationDate),
             title = headline,
-            url = apiArticle.apiUrl
+            url = apiArticle.apiUrl,
+            bodyText = cleanBody
         )
+    }
+
+    private fun stripHtml(htmlText: String): String {
+        return HtmlCompat.fromHtml(htmlText, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            .toString()
+            .trim()
     }
 
     private fun formatDate(date: Date): String {

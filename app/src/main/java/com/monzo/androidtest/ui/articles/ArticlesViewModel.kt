@@ -40,10 +40,38 @@ class ArticlesViewModel(
             }
         }
     }
+
+    fun onArticleClicked(article: Article) {
+        viewModelScope.launch {
+            setState { copy(isLoadingDetail = true) }
+            try {
+                val fullArticle = repository.getArticle(article.url)
+                setState {
+                    copy(
+                        selectedArticle = fullArticle,
+                        isLoadingDetail = false
+                    )
+                }
+            } catch (_: Exception) {
+                setState {
+                    copy(
+                        selectedArticle = article,
+                        isLoadingDetail = false
+                    )
+                }
+            }
+        }
+    }
+
+    fun onBackFromDetail() {
+        setState { copy(selectedArticle = null) }
+    }
 }
 
 data class ArticlesState(
     val refreshing: Boolean = true,
     val articles: List<Article> = emptyList(),
+    val selectedArticle: Article? = null,
+    val isLoadingDetail: Boolean = false,
     val errorMessage: String? = null
 )
