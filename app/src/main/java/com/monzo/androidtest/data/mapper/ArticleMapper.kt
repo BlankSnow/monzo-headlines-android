@@ -3,6 +3,9 @@ package com.monzo.androidtest.data.mapper
 import com.monzo.androidtest.data.api.model.ApiArticle
 import com.monzo.androidtest.data.api.model.ApiArticleListResponse
 import com.monzo.androidtest.domain.model.Article
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class ArticleMapper {
     fun map(apiArticleListResponse: ApiArticleListResponse): List<Article> {
@@ -21,8 +24,14 @@ class ArticleMapper {
             sectionId = apiArticle.sectionId,
             sectionName = apiArticle.sectionName,
             published = apiArticle.webPublicationDate,
+            publishedDateFormatted = formatDate(apiArticle.webPublicationDate),
             title = headline,
-            url = apiArticle.apiUrl,
+            url = apiArticle.apiUrl
         )
+    }
+
+    private fun formatDate(date: Date): String {
+        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return formatter.format(date)
     }
 }

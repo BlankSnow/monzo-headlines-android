@@ -1,9 +1,8 @@
-package com.monzo.androidtest.ui.articles
+package com.monzo.androidtest.articles
 
 import com.monzo.androidtest.data.repository.ArticlesRepository
 import com.monzo.androidtest.domain.model.Article
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertFalse
+import com.monzo.androidtest.ui.articles.ArticlesViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -11,7 +10,8 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
 import org.mockito.kotlin.mock
@@ -43,6 +43,7 @@ class ArticlesViewModelTest {
                 sectionId = "fintech",
                 sectionName = "Fintech",
                 published = Date(),
+                publishedDateFormatted = "11/07/2016",
                 title = "Fintech News",
                 url = "http://api.com/1"
             )
@@ -53,8 +54,8 @@ class ArticlesViewModelTest {
         testDispatcher.scheduler.advanceUntilIdle()
 
         val state = viewModel.state.value
-        Assert.assertFalse(state.refreshing)
-        Assert.assertEquals(dummyArticles, state.articles)
+        assertFalse(state.refreshing)
+        assertEquals(dummyArticles, state.articles)
     }
 
     @Test

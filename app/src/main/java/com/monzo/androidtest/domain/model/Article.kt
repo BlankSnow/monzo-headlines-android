@@ -8,6 +8,7 @@ data class Article(
     val sectionId: String,
     val sectionName: String,
     val published: Date,
+    val publishedDateFormatted: String,
     val title: String,
     val url: String,
 )
