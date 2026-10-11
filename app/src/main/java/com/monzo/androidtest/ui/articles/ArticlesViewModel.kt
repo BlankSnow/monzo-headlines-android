@@ -15,7 +15,7 @@ class ArticlesViewModel(
     }
 
     fun onRefresh() {
-        setState { copy(refreshing = true) }
+        setState { copy(refreshing = true, errorMessage = null) }
         loadArticles()
     }
 
@@ -23,9 +23,20 @@ class ArticlesViewModel(
         viewModelScope.launch {
             try {
                 val articles = repository.latestFintechArticles()
-                setState { copy(refreshing = false, articles = articles) }
+                setState {
+                    copy(
+                        refreshing = false,
+                        articles = articles,
+                        errorMessage = null
+                    )
+                }
             } catch (_: Exception) {
-                setState { copy(refreshing = false) }
+                setState {
+                    copy(
+                        refreshing = false,
+                        errorMessage = "Error loading articles"
+                    )
+                }
             }
         }
     }
@@ -33,5 +44,6 @@ class ArticlesViewModel(
 
 data class ArticlesState(
     val refreshing: Boolean = true,
-    val articles: List<Article> = emptyList()
+    val articles: List<Article> = emptyList(),
+    val errorMessage: String? = null
 )
