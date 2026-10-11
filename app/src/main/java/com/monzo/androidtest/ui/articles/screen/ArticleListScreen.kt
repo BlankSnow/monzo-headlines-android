@@ -70,6 +70,9 @@ internal fun ArticleListScreen(
                 .pullRefresh(pullRefreshState)
                 .padding(paddingValues),
         ) {
+            val favourites = state.articles.filter { it.isFavourite }
+            val nonFavourites = state.articles.filter { !it.isFavourite }
+
             if (state.articles.isEmpty() && !state.refreshing) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
@@ -79,15 +82,28 @@ internal fun ArticleListScreen(
                 }
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
-                    item {
-                        SectionHeader(title = stringResource(R.string.section_this_week))
+                    if (favourites.isNotEmpty()) {
+                        item {
+                            SectionHeader(title = stringResource(R.string.section_favourites))
+                        }
+                        items(favourites) { article ->
+                            ArticleCardItem(
+                                article = article,
+                                onClick = { onArticleClick(article) }
+                            )
+                        }
                     }
 
-                    items(state.articles) { article ->
-                        ArticleCardItem(
-                            article = article,
-                            onClick = { onArticleClick(article) }
-                        )
+                    if (nonFavourites.isNotEmpty()) {
+                        item {
+                            SectionHeader(title = stringResource(R.string.section_this_week))
+                        }
+                        items(nonFavourites) { article ->
+                            ArticleCardItem(
+                                article = article,
+                                onClick = { onArticleClick(article) }
+                            )
+                        }
                     }
                 }
             }

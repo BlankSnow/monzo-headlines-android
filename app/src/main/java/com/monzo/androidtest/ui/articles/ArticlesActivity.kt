@@ -36,7 +36,8 @@ private fun MainContent(viewModel: ArticlesViewModel) {
         BackHandler { viewModel.onBackFromDetail() }
         ArticleDetailScreen(
             article = selectedArticle,
-            onBack = viewModel::onBackFromDetail
+            onBack = viewModel::onBackFromDetail,
+            onToggleFavourite = { viewModel.onToggleFavourite(selectedArticle) }
         )
     } else {
         ArticleListScreen(

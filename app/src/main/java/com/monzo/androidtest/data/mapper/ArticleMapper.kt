@@ -9,13 +9,13 @@ import java.util.Date
 import java.util.Locale
 
 class ArticleMapper {
-    fun map(apiArticleListResponse: ApiArticleListResponse): List<Article> {
+    fun map(apiArticleListResponse: ApiArticleListResponse, favouriteIds: Set<String>): List<Article> {
         return apiArticleListResponse.response.results.map { apiArticle ->
-            mapSingle(apiArticle)
+            mapSingle(apiArticle, favouriteIds)
         }
     }
 
-    fun mapSingle(apiArticle: ApiArticle): Article {
+    fun mapSingle(apiArticle: ApiArticle, favouriteIds: Set<String>): Article {
         val thumbnail = apiArticle.fields?.thumbnail ?: ""
         val headline = apiArticle.fields?.headline ?: apiArticle.webTitle
         val cleanBody = apiArticle.fields?.body?.let { stripHtml(it) }
@@ -29,6 +29,7 @@ class ArticleMapper {
             publishedDateFormatted = formatDate(apiArticle.webPublicationDate),
             title = headline,
             url = apiArticle.apiUrl,
+            isFavourite = favouriteIds.contains(apiArticle.id),
             bodyText = cleanBody
         )
     }

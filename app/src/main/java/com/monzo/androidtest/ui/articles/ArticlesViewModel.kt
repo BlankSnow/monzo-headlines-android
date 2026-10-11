@@ -66,6 +66,28 @@ class ArticlesViewModel(
     fun onBackFromDetail() {
         setState { copy(selectedArticle = null) }
     }
+
+    fun onToggleFavourite(article: Article) {
+        val newFavState = repository.toggleFavourite(article.id)
+        val updatedArticle = article.copy(isFavourite = newFavState)
+
+        val updatedList = state.value.articles.map { item ->
+            if (item.id == article.id) updatedArticle else item
+        }
+
+        val updatedSelected = if (state.value.selectedArticle?.id == article.id) {
+            updatedArticle
+        } else {
+            state.value.selectedArticle
+        }
+
+        setState {
+            copy(
+                articles = updatedList,
+                selectedArticle = updatedSelected
+            )
+        }
+    }
 }
 
 data class ArticlesState(

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">The Guardian</string>
     <string name="section_this_week">This week</string>
+    <string name="section_favourites">Favourites</string>
     <string name="no_articles_available">No articles available.</string>
     <string name="cd_back_button">Back</string>
+    <string name="cd_favourite_button">Favourite</string>
 </resources>
